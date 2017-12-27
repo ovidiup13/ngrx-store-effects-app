@@ -57,10 +57,12 @@ export function reducer(
       };
     }
     case fromPizzas.LOAD_PIZZAS_SUCCESS: {
+      const data = (action as fromPizzas.LoadPizzasSuccess).payload;
       return {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
+        data: data
       };
     }
     case fromPizzas.LOAD_PIZZAS_FAIL: {
