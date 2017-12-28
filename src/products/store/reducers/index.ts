@@ -5,6 +5,7 @@ import {
 } from "@ngrx/store";
 
 import * as fromPizzas from "./pizzas.reducers";
+import { getPizzasEntities } from "./pizzas.reducers";
 
 export interface ProductsState {
   pizzas: fromPizzas.PizzaState;
@@ -25,10 +26,15 @@ export const getPizzasState = createSelector(
 );
 
 // only pass the slices that we need
-export const getAllPizzas = createSelector(
+export const getAllPizzasEntities = createSelector(
   getPizzasState,
-  fromPizzas.getPizzas
+  fromPizzas.getPizzasEntities
 );
+
+export const getAllPizzas = createSelector(getAllPizzasEntities, entities => {
+  return Object.keys(entities).map(id => entities[parseInt(id)]);
+});
+
 export const getAllPizzasLoaded = createSelector(
   getPizzasState,
   fromPizzas.getPizzasLoaded
