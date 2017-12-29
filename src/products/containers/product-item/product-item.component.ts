@@ -43,7 +43,6 @@ export class ProductItemComponent implements OnInit {
         const toppings = pizzaExists
           ? pizza.toppings.map(topping => topping.id)
           : [];
-        console.log("NGInit::::", toppings);
         this.store.dispatch(new fromStore.VisualizeToppings(toppings));
       })
     );
@@ -52,11 +51,12 @@ export class ProductItemComponent implements OnInit {
   }
 
   onSelect(event: number[]) {
-    console.log("stupid event gets called for no reason", event);
     this.store.dispatch(new fromStore.VisualizeToppings(event));
   }
 
-  onCreate(event: Pizza) {}
+  onCreate(event: Pizza) {
+    this.store.dispatch(new fromStore.CreatePizza(event));
+  }
 
   onUpdate(event: Pizza) {}
 
