@@ -78,4 +78,19 @@ export class PizzaEffects {
       );
     })
   );
+
+  @Effect()
+  handlePizzaSuccess$ = this.actions$
+    .ofType(
+      pizzaActions.UPDATE_PIZZA_SUCCESS,
+      pizzaActions.DELETE_PIZZA_SUCCESS
+    )
+    .pipe(
+      map(
+        pizza =>
+          new fromRoot.Go({
+            path: ["/products"]
+          })
+      )
+    );
 }
