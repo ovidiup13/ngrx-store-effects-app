@@ -59,9 +59,10 @@ export class ProductItemComponent implements OnInit {
   }
 
   onUpdate(event: Pizza) {
-    console.log("::::Update pizza", event);
     this.store.dispatch(new fromStore.UpdatePizza(event));
   }
 
-  onRemove(event: Pizza) {}
+  onRemove(event: Pizza) {
+    this.store.dispatch(new fromStore.DeletePizza(event));
+  }
 }

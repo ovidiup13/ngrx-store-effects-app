@@ -19,6 +19,12 @@ export function reducer(
   action: fromPizzas.PizzasActions
 ): PizzaState {
   switch (action.type) {
+    case fromPizzas.LOAD_PIZZAS: {
+      return { ...state, loading: true };
+    }
+    case fromPizzas.LOAD_PIZZAS_FAIL: {
+      return { ...state, loading: false, loaded: false };
+    }
     case fromPizzas.LOAD_PIZZAS_SUCCESS: {
       const pizzas = action.payload;
       // convert array to object
@@ -42,11 +48,17 @@ export function reducer(
       const entities = { ...state.entities, [pizza.id]: pizza };
       return { ...state, entities };
     }
-    case fromPizzas.LOAD_PIZZAS: {
-      return { ...state, loading: true };
-    }
-    case fromPizzas.LOAD_PIZZAS_FAIL: {
-      return { ...state, loading: false, loaded: false };
+
+    case fromPizzas.DELETE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+
+      // destructure remaining entities without pizza
+      const { [pizza.id]: removed, ...entities } = state.entities;
+
+      return {
+        ...state,
+        entities
+      };
     }
   }
 
