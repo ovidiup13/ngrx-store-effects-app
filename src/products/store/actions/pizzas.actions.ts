@@ -8,7 +8,7 @@ export const LOAD_PIZZAS_SUCCESS = "[Products] Load Pizzas Success";
 
 export class LoadPizzas implements Action {
   readonly type: string = LOAD_PIZZAS;
-  constructor() {}
+  constructor(public payload: any) {}
 }
 
 export class LoadPizzasFail implements Action {
@@ -55,12 +55,12 @@ export class UpdatePizza implements Action {
 }
 
 export class UpdatePizzaFail implements Action {
-  readonly type: string = UPDATE_PIZZA;
+  readonly type: string = UPDATE_PIZZA_FAIL;
   constructor(public payload: any) {}
 }
 
 export class UpdatePizzaSuccess implements Action {
-  readonly type: string = UPDATE_PIZZA;
+  readonly type: string = UPDATE_PIZZA_SUCCESS;
   constructor(public payload: Pizza) {}
 }
 
