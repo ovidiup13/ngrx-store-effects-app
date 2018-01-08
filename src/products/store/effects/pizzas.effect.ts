@@ -3,6 +3,7 @@ import { Effect, Actions } from "@ngrx/effects";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 
+import * as fromRoot from "../../../app/store/";
 import * as fromServices from "../../services";
 import * as pizzaActions from "../actions";
 import { Pizza } from "src/products/models/pizza.model";
@@ -38,6 +39,19 @@ export class PizzaEffects {
   );
 
   @Effect()
+  createPizzaSuccess$ = this.actions$
+    .ofType(pizzaActions.CREATE_PIZZA_SUCCESS)
+    .pipe(
+      map((action: pizzaActions.CreatePizzaSuccess) => action.payload),
+      map(
+        pizza =>
+          new fromRoot.Go({
+            path: ["/products", pizza.id]
+          })
+      )
+    );
+
+  @Effect()
   updatePizza$ = this.actions$.ofType(pizzaActions.UPDATE_PIZZA).pipe(
     map((action: pizzaActions.UpdatePizza) => action.payload),
     switchMap((pizza: Pizza) => {
@@ -54,12 +68,14 @@ export class PizzaEffects {
   deletePizza$ = this.actions$.ofType(pizzaActions.DELETE_PIZZA).pipe(
     map((action: pizzaActions.DeletePizza) => action.payload),
     switchMap((pizza: Pizza) => {
-      return this.pizzaService
-        .removePizza(pizza)
-        .pipe(
-          map(pizza => new pizzaActions.DeletePizzaSuccess(pizza)),
-          catchError(error => of(new pizzaActions.DeletePizzaFail(error)))
-        );
+      console.log("DeletePizzaEffect:::", pizza);
+      return this.pizzaService.removePizza(pizza).pipe(
+        map(() => {
+          console.log("DeletePizzaEffectSuccess:::", pizza);
+          return new pizzaActions.DeletePizzaSuccess(pizza);
+        }),
+        catchError(error => of(new pizzaActions.DeletePizzaFail(error)))
+      );
     })
   );
 }

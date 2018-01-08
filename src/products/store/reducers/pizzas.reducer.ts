@@ -51,10 +51,11 @@ export function reducer(
 
     case fromPizzas.DELETE_PIZZA_SUCCESS: {
       const pizza = action.payload;
-
-      // destructure remaining entities without pizza
+      console.log("DeletePizzaReducer:::", pizza);
+      // destructure remaining entities without deleted pizza
       const { [pizza.id]: removed, ...entities } = state.entities;
-
+      console.log("DeletePizzaReducer:::", removed);
+      console.log("DeletePizzaReducer:::", entities);
       return {
         ...state,
         entities
